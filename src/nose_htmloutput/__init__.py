@@ -14,6 +14,9 @@ __version__ = '0.6.0'
 
 TEST_ID = re.compile(r'^(.*?)(\(.*\))$')
 
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 def id_split(idval):
     m = TEST_ID.match(idval)
@@ -135,6 +138,7 @@ class HtmlOutput(Plugin):
         group.stats['passes'] += 1
         group.tests.append({
             'name': name[-1],
+            'description': test.shortDescription(),
             'failed': False,
         })
 
@@ -159,6 +163,7 @@ class HtmlOutput(Plugin):
             group.stats['errors'] += 1
         group.tests.append({
             'name': name[-1],
+            'description': test.shortDescription(),
             'failed': True,
             'type': type,
             'errtype': nice_classname(err[0]),
@@ -181,6 +186,7 @@ class HtmlOutput(Plugin):
         group.stats['failures'] += 1
         group.tests.append({
             'name': name[-1],
+            'description': test.shortDescription(),
             'failed': True,
             'errtype': nice_classname(err[0]),
             'message': exc_message(err),
